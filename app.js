@@ -56,6 +56,9 @@ app.post('/birthDay', (req, res) => {
 
   
 });
+app.get('/',(req, res) => {
+  res.send("hello word")
+})
 
 
 app.listen(port, () => {
