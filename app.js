@@ -1,10 +1,22 @@
 const express = require('express')
 const app = express()
+const path=require('path')
 const port = 3000
 var bodyParser = require('body-parser')
+const exphbs = require('express-handlebars');
 
 
-app.use(bodyParser.json())
+
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+
+
+app.engine('.hbs', exphbs.engine({ extname: '.hbs'}))
+app.set('view engine', '.hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // app.get('/phone', (req, res) => {
 
@@ -32,6 +44,9 @@ function calculateAge(dateString) {
   var day = parseInt(parts[0], 10);
   var month = parseInt(parts[1], 10) - 1;
   var year = parseInt(parts[2], 10);
+  if(day>31||month>12||year>today.getFullYear()){
+    return -1;
+  }
   var birthDate = new Date(year, month, day);
 
   var age = today.getFullYear() - birthDate.getFullYear();
@@ -49,7 +64,7 @@ app.post('/birthDay', (req, res) => {
     return calculateAge(dateString);
   });
   var ageListFilter=ageList.map((age) => {
-     if (age <0) return "năm sinh của bạn lớn hơn năm hiện tại"
+     if (age <0) return "bạn nhập ngày sinh không hợp lệ"
      else return age
   })
   res.send(ageListFilter);
@@ -57,7 +72,7 @@ app.post('/birthDay', (req, res) => {
   
 });
 app.get('/',(req, res) => {
-  res.send("hello word")
+  res.render("index")
 })
 
 

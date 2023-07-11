@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+    
+  <div class="container">
+    <form id="formCalculate" action="#" method="POST">
+        <h1>Tính tuổi </h1>
+        <p><span style="color: brown;">Chú ý :</span> Phải nhập tuổi có dịnh dạng là :dd-mm-yyyy và mỗi ngày sinh phải cách nhau bởi 1 dấu ,
+          
+        </p>
+        <p><span style="color: brown;">ví dụ :</span> :21-01-2003 , 23-02-2005 </p>
+      <label for="inputField">Nhập danh sách ngày sinh :</label>
+      <input type="text" id="inputField" name="inputField">
+      <button type="submit">Tình tuổi  </button>
+    </form>
+    <div id="listAge">
+      
+    </div>
+
+  </div>
+  
+<script>
+const submitForm = (event) => {
+  event.preventDefault(); 
+  var inputData = document.getElementById('inputField').value;
+ 
+  fetch('/birthDay', {
+     method: 'POST',
+     headers: {
+          'Content-Type': 'application/json',
+        },
+    body: JSON.stringify({ date:inputData }),
+    // Hoặc GET, PUT, DELETE tùy theo phương thức của yêu cầu
+   
+  })
+  .then(function(response) {
+    return response.text();
+  })
+  .then(function(data) {
+    // Xử lý kết quả nhận được từ máy chủ
+     document.getElementById('listAge').innerHTML=""
+    console.log(data)
+    listData=data.split(',')
+    console.log(listData)
+     listData.forEach((age) => {
+      document.getElementById('listAge').innerHTML += `<p>${age}</p>`; // Thêm dấu += để gắn thêm các mục vào innerHTML
+    });
+   
+  })
+  .catch(function(error) {
+    // Xử lý lỗi nếu có
+    console.log(error);
+  });
+};
+
+document.getElementById('formCalculate').addEventListener('submit', submitForm);
+
+</script>
+</body>
+</html>
