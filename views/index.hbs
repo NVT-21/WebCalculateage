@@ -47,9 +47,13 @@ const submitForm = (event) => {
     console.log(data)
     listData=data.split(',')
     console.log(listData)
-     listData.forEach((age) => {
-      document.getElementById('listAge').innerHTML += `<p>${age}</p>`; // Thêm dấu += để gắn thêm các mục vào innerHTML
-    });
+      if(listData=="Bạn nhập danh sách ngày sinh không hợp lệ"){
+         document.getElementById('listAge').textContent ="Bạn nhập danh sách ngày sinh không hợp lệ"
+      }
+      else {
+        document.getElementById('listAge').textContent = `Danh sách tuổi :${listData}`; }
+      
+   
    
   })
   .catch(function(error) {

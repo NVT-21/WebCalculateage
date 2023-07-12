@@ -44,7 +44,7 @@ function calculateAge(dateString) {
   var day = parseInt(parts[0], 10);
   var month = parseInt(parts[1], 10) - 1;
   var year = parseInt(parts[2], 10);
-  if(day>31||month>12||year>today.getFullYear()){
+  if (day > 31 || month >= 12 || year > today.getFullYear() || isNaN(day) || isNaN(month) || isNaN(year)) {
     return -1;
   }
   var birthDate = new Date(year, month, day);
@@ -64,7 +64,7 @@ app.post('/birthDay', (req, res) => {
     return calculateAge(dateString);
   });
   var ageListFilter=ageList.map((age) => {
-     if (age <0) return "bạn nhập ngày sinh không hợp lệ"
+     if (age <0) return res.send("Bạn nhập danh sách ngày sinh không hợp lệ")
      else return age
   })
   res.send(ageListFilter);
